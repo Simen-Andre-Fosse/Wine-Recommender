@@ -1,0 +1,53 @@
+USER CASES:
+
+This is some usercases/ sparql queries, that we have made but, didnt have time to implement into the interface.
+
+query for a search after drinks that suits fish and costs under 500kr. the query will return type, name and price. It also orders the list in ascending order. 
+this query can easily be changed to find other types of food and different price class.
+
+
+            ResultSet resultSet = QueryExecutionFactory
+                    .create(""
+                            + prefixes
+                            + "SELECT ?vare ?type ?price WHERE {"
+                            + " ?vare ?passer \"Fisk\". "
+                            + "?vare ex:hasType ?type."
+                            + "?vare ex:hasPrice ?price."
+                            + "FILTER(?price <=500)"
+                            + "}"+ "ORDER BY ASC(?price)", owlModel)
+                    .execSelect();
+            resultSet.forEachRemaining(qsol -> System.out.println(qsol.toString()));
+
+Query for finding all beverages with alcohol under 20%:
+
+            ResultSet resultSet = QueryExecutionFactory
+                    .create(""
+                            + prefixes
+                            + "SELECT ?vare ?alkohol ?type WHERE {"
+                            + " ?vare ex:hasAlkohol ?alkohol. "
+                            + "?vare ex:hasType ?type."
+                            + "FILTER(?alkohol <=20)"
+                            + "}"+ "ORDER BY ASC(?alkohol)", owlModel)
+                    .execSelect();
+            resultSet.forEachRemaining(qsol -> System.out.println(qsol.toString()));
+
+Query for finding white wines that suits fish. the query will return beverages, price, taste and smell.
+
+            ResultSet resultSet = QueryExecutionFactory
+                    .create(""
+                            + prefixes
+                            + "SELECT ?vare ?price ?smak ?lukt WHERE {"
+                            + "?vare ?passer \"Fisk\". "
+                            + "?vare ex:hasType \"Hvitvin\"."
+                            + "?vare ex:hasSmak ?smak."
+                            + "?vare ex:hasLukt ?lukt."
+                            + "?vare ex:hasPrice ?price"
+                            + "}" , owlModel)
+                    .execSelect();
+            resultSet.forEachRemaining(qsol -> System.out.println(qsol.toString()));
+
+
+
+
+
+
